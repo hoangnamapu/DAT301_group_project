@@ -40,7 +40,31 @@ plt.show()
 
 #3 BOX PLOT 2
 
-#4 CORELATION PLOT
+#4 CORELATION PLOT (KAVISH)
+areas = {
+    'New York County': 'Manhattan',
+    'Kings County': 'Brooklyn',
+    'Queens County': 'Queens',
+    'Bronx County': 'The Bronx',
+    'Richmond County': 'Staten Island'
+}
+
+df_clean = df[df['LOCALITY'].isin(areas.keys())].copy()
+df_clean['Borough'] = df_clean['LOCALITY'].map(areas)
+
+df_clean['TYPE'] = df_clean['TYPE'].str.strip()
+df_clean['TYPE'] = df_clean['TYPE'].str.replace(' for sale', '', regex=False)
+df_clean['TYPE'] = df_clean['TYPE'].str.replace('Multi-family home', 'Multi-family', regex=False)
+
+heatmap_data = df_clean.pivot_table(index='Borough', columns='TYPE', values='PRICE', aggfunc='median')
+
+plt.figure(figsize=(10, 6))
+sns.heatmap(heatmap_data, annot=True, fmt='.0f', cmap='YlGnBu', cbar_kws={'label': 'Median Price ($)'})
+plt.title('Median Property Prices by Borough and Type', fontsize=14, fontweight='bold')
+plt.xlabel('Property Type')
+plt.ylabel('Borough')
+plt.tight_layout()
+plt.show()
 
 #5 REQUIRED INCOME
 
