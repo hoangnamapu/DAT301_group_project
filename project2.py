@@ -5,6 +5,45 @@ import seaborn as sns
 
 df = pd.read_csv("NY-House-Dataset.csv")
 
+
+#ANALYSIS PLOTS FROM HERE
+#1 PLOT FOR THE HOUSE PRICES ( BOX PLOT - HARSHVARDHAN )
+areas = {
+    'New York County': 'Manhattan',
+    'Kings County': 'Brooklyn',
+    'Queens County': 'Queens',
+    'Bronx County': 'The Bronx',
+    'Richmond County': 'Staten Island'
+}
+
+df_clean = df[df['ADMINISTRATIVE_AREA_LEVEL_2'].isin(areas.keys())].copy()
+df_clean['Borough'] = df_clean['ADMINISTRATIVE_AREA_LEVEL_2'].map(areas)
+plt.figure(figsize=(12, 8))
+sns.set_theme(style="whitegrid")
+
+sns.boxenplot(
+    data=df_clean, 
+    x="PRICE", 
+    y="Borough", 
+    palette="coolwarm", 
+    order=['Manhattan', 'Brooklyn', 'Queens', 'Staten Island', 'The Bronx']
+)
+plt.xscale('log')
+
+plt.title('Price Distribution by Borough (Box Plot)', fontsize=16, fontweight='bold')
+plt.xlabel('Price (Log Scale)')
+plt.ylabel('')
+plt.show()
+
+
+#2 Scatter Plot
+
+#3 BOX PLOT 2
+
+#4 CORELATION PLOT
+
+#5 REQUIRED INCOME
+
 # Clean PRICE column (remove commas, $, text)
 if df["PRICE"].dtype == "object":
     df["PRICE"] = (
